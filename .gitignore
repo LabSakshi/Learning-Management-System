@@ -1,0 +1,49 @@
+# Node modules
+server/node_modules/
+
+# Logs
+server/*.log
+server/logs/
+server/**/*.log
+
+# Runtime data
+server/pids/
+server/*.pid
+server/*.seed
+
+# Environment variables
+server/.env
+server/.env.local
+server/.env.*.local
+
+# TypeScript build output
+server/dist/
+server/build/
+
+# Optional npm cache folder
+server/.npm
+
+# VSCode settings
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# npm-debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript cache
+server/.tscache/
+server/.tsbuildinfo
+
+# Jest coverage folder
+server/coverage/
+
+# Other IDE/editor folders
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

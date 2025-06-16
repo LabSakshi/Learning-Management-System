@@ -1,6 +1,24 @@
 # 📘 LMS Backend – Node.js + TypeScript
+Project Status: In Development 🚧
 
-This project is the backend for a Learning Management System (LMS) built with Node.js, TypeScript, Express, MongoDB, Redis, and EJS for sending activation emails.
+This is a Learning Management System backend built with Node.js, TypeScript, Express, and MongoDB.
+The goal is to create a scalable, secure platform for managing courses, users, and authentication.
+
+📬 Features
+User registration and authentication (JWT, password hashing)
+
+Email verification with EJS templated emails
+
+Course enrollment and management
+
+Role-based access control
+
+Redis caching for performance
+
+Error handling and logging
+
+API endpoints following REST principles
+
 
 ---
 
@@ -62,21 +80,6 @@ npm run dev – Start development server with nodemon
 npm run build – Compile TypeScript to JavaScript
 
 npm start – Run compiled JavaScript in dist/
-
-📬 Features
-User Registration with email verification
-
-Password hashing with bcrypt
-
-Email sending using Nodemailer + EJS templates
-
-Redis integration for caching or sessions
-
-Centralized error handling middleware
-
-Environment-based configuration via dotenv
-
-Type-safe development using TypeScript
 
 📦 Technologies Used
 Node.js – JavaScript runtime

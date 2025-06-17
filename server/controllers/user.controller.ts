@@ -7,6 +7,7 @@ import ErrorHandler from "../utils/ErrorHandler";
 import { ErrorMiddleWare } from "../middleware/error";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import path from "path";
+import sendMail from "../utils/sendMail";
 
 //register user
 
@@ -46,7 +47,20 @@ export const registrationUser = CatchAsyncError(
       );
 
       try {
-      } catch (err) {}
+        await sendMail({
+          email: user.email,
+          subject: "Activate your account",
+          template: "activation-mail.ejs",
+          data,
+        });
+        res.status(201).json({
+          success: true,
+          message: `Please check your email ${user.email} to activate your account`,
+          activationToken: activationToken.token,
+        });
+      } catch (err: any) {
+        return next(new ErrorHandler(err.message, 400));
+      }
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }
@@ -68,3 +82,16 @@ export const createActivationToken = (user: any): IActivationToken => {
 
   return { token, activationCode };
 };
+
+// signup for lms
+// frontend should make api request to /signup
+// frontend should send the username, password, email in body
+// ✅ Summary of Approach:
+// Step	Description
+// 1	Validate and destructure incoming request data
+// 2	Check if email already exists
+// 3	Create an activation token using JWT
+// 4	Generate HTML email using EJS
+// 5	Send the email using Nodemailer
+// 6	Send a success response to frontend
+// 7	Use centralized error handling

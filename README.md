@@ -54,7 +54,7 @@ server/
 ### 1. Clone the repo
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/LabSakshi/Learning-Management-System.git
 cd server
 2. Install dependencies
 npm install
@@ -72,7 +72,6 @@ SMTP_PORT=587
 SMTP_USER=your_email@example.com
 SMTP_PASS=your_email_password
 ORIGIN=http://localhost:3000
-⚠️ Important: Never commit your .env file to version control.
 
 🧪 Scripts
 npm run dev – Start development server with nodemon
@@ -114,8 +113,6 @@ Unit and integration testing
 
 👩‍💻 Author
 Sakshi Gupta
-
-Let me know if you want me to help with `.gitignore` or anything else!
 
 
 

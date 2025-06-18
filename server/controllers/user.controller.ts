@@ -2,7 +2,7 @@ require("dotenv").config();
 import { Request, Response, NextFunction } from "express";
 import ejs from "ejs";
 import jwt, { Secret } from "jsonwebtoken";
-import userModel from "../models/user.model";
+import userModel, { IUser } from "../models/user.model";
 import ErrorHandler from "../utils/ErrorHandler";
 import { ErrorMiddleWare } from "../middleware/error";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
@@ -83,6 +83,44 @@ export const createActivationToken = (user: any): IActivationToken => {
   return { token, activationCode };
 };
 
+//activate user
+
+interface IActivationRequest {
+  activation_token: string;
+  activation_code: string;
+}
+
+export const activateUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { activation_code, activation_token } =
+        req.body as IActivationRequest;
+      const newUser: { user: IUser; activationCode: string } = jwt.verify(
+        activation_token,
+        process.env.ACTIVATION_SECRET as string
+      ) as { user: IUser; activationCOde: string };
+      if (newUser.activationCode !== activation_code) {
+        return next(new ErrorHandler("Invalid activation code", 400));
+      }
+      const { name, email, password } = newUser.user;
+      const existUser = await userModel.findOne({ email });
+      if (existUser) {
+        return next(new ErrorHandler("Email already exist", 400));
+      }
+
+      const user = await userModel.create({
+        name,
+        email,
+        password,
+      });
+
+      res.status(201).json({ success: true });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
 // signup for lms
 // frontend should make api request to /signup
 // frontend should send the username, password, email in body
@@ -95,3 +133,16 @@ export const createActivationToken = (user: any): IActivationToken => {
 // 5	Send the email using Nodemailer
 // 6	Send a success response to frontend
 // 7	Use centralized error handling
+
+// user activation
+// user receives code
+// user will go to code enter page
+// user will enter code
+// and frontend will send another reauest with code
+// so code we are sending should be stored somewhere
+// verify the code with code sent from fronetend
+// for login functionality
+// user provide username and password
+// from frontend post req: /login check userLoginFunction(username, password)
+// check against dba
+// now if correct login
